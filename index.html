@@ -1385,6 +1385,7 @@ footer strong{color:var(--accent)}
     <li><a href="#how">How it works</a></li>
     <li><a href="#why">Why LARA</a></li>
     <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#quickstart">Quick Start</a></li>
     <li><a href="https://web-production-41d94.up.railway.app/docs" target="_blank">Docs</a></li>
   </ul>
   <a href="#register" class="nav-cta">Start free</a>
@@ -1678,6 +1679,48 @@ footer strong{color:var(--accent)}
   </div>
 </section>
 
+<!-- Quick Start -->
+<section id="quickstart">
+  <div class="container">
+    <div class="section-label reveal">Quick start</div>
+    <h2 class="reveal">Make your first API call<br>in 60 seconds</h2>
+    <p class="section-sub reveal">Three steps. Any language. Any platform.</p>
+
+    <div class="steps" style="margin-top:3rem">
+      <div class="step reveal">
+        <div class="step-num">01 — Install</div>
+        <h3>Install the requests library</h3>
+        <div style="margin-top:0.75rem;background:rgba(0,0,0,0.3);border-radius:8px;padding:1rem;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:#A78BFA;border:1px solid rgba(108,99,255,0.2)">
+          pip install requests
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02 — Call</div>
+        <h3>Send your first image</h3>
+        <div style="margin-top:0.75rem;background:rgba(0,0,0,0.3);border-radius:8px;padding:1rem;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#E8E8F0;line-height:1.8;border:1px solid rgba(108,99,255,0.2)">
+          import requests<br><br>
+          res = requests.post(<br>
+          &nbsp;&nbsp;"...railway.app/detect",<br>
+          &nbsp;&nbsp;headers={"x-api-key": "your-key"},<br>
+          &nbsp;&nbsp;files={"file": open("img.jpg","rb")}<br>
+          )
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03 — Read</div>
+        <h3>Parse the JSON response</h3>
+        <div style="margin-top:0.75rem;background:rgba(0,0,0,0.3);border-radius:8px;padding:1rem;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#E8E8F0;line-height:1.8;border:1px solid rgba(108,99,255,0.2)">
+          data = res.json()<br><br>
+          <span style="color:#6B6B80"># data["detections"] =</span><br>
+          <span style="color:#6B6B80"># [{"label": "person",</span><br>
+          <span style="color:#6B6B80">#   "confidence": 0.92,</span><br>
+          <span style="color:#6B6B80">#   "box": [10,20,150,300]}]</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Register -->
 <section id="register">
   <div class="container" style="text-align:center">
@@ -1742,7 +1785,21 @@ async function register(){
     const data=await res.json();
     if(res.ok){
       result.className='form-result success';result.style.display='block';
-      result.innerHTML=`✓ Account created! Your API key:<div class="api-key-display">${data.api_key}</div><br>Save this key — you'll need it for every API call.`;
+      result.innerHTML=`✓ Account created! Your API key:<div class="api-key-display">${data.api_key}</div><br><strong style="color:var(--accent2)">Quick start — copy and run this:</strong><div class="api-key-display" style="margin-top:0.5rem;color:#E8E8F0;font-size:0.72rem;line-height:1.8">import requests<br>
+        <br>
+        response = requests.post(<br>
+        &nbsp;&nbsp;"https://web-production-41d94.up.railway.app/detect",<br>
+        &nbsp;&nbsp;headers={"x-api-key": "${data.api_key}"},<br>
+        &nbsp;&nbsp;files={"file": open("your-image.jpg", "rb")}<br>
+        )<br>
+        print(response.json())
+        </div>
+        <br>
+        <a href="https://web-production-41d94.up.railway.app/docs" target="_blank" 
+          style="color:var(--accent);font-size:0.8rem">
+          → View full API docs
+        </a>
+        `;
       btn.textContent='✓ API key created!';
     }else{throw new Error(data.detail||'Registration failed')}
   }catch(err){
